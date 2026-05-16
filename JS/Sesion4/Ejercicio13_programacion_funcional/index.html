@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var frutarebelde = "manzana"
+        var frutas = ["pera", "melocoton", "fresa", "kiwi", "naranja", frutarebelde];
+     // map -> por cada elemento de la colección me devuelve otro modificado
+     // coleccion.map (que recibo ==> como lo proceso)
+
+    var mayusculas = frutas.map(item => item.toUpperCase());
+    document.write(mayusculas+"<br/>");
+    document.write(frutas+"<br/>");//principio de inmutabilidad
+
+    // filter -> a cada elemento le aplicamos uina condicón 
+    // si es true nos los quedamos, si es false lo descartamos
+    // coleccion.filter(que_recibo => condicion)
+    
+    var comienzanM = frutas.filter(elemento => elemento.charAt(0) == 'm' || elemento.charAt(0) == 'k' );
+    document.write(comienzanM+"<br/>");
+
+
+    // reduce -> acumula elementos y devuelve un único resultado
+    // coleccion.reduce(acumulador, que_recibo => que hacemos)
+ 
+
+    var cadena = frutas.reduce( (acum, fruta) => acum + "-" + fruta);
+    document.write(cadena+"<br/>");
+
+    var suma = [1,2,3,4,5,6].reduce( (acum, num) => acum + num);
+    document.write(suma+"<br/>");
+
+    var multi = [1,2,3,4,5,6].reduce( (acum, num) => acum * num);
+    document.write(multi+"<br/>");
+
+
+    /* Crear array de numero,
+    obtener el doble de cada numero,
+    filtrar los mayores de diez
+    mostra la suma*/
+    document.write("<br/>"+ "______JUGANDO CON MAP FILTER REDUCE__________"+"<br/>");                                              
+    var numericos = [4,8,1,6,3];
+    var doblados = numericos.map (item => item * 2);
+    document.write(numericos+"<br/>");
+    document.write("pasan a: "+"<br/>");
+    document.write(doblados+"<br/>");
+    var filtrados = doblados.filter(elemento => elemento > 10);
+    document.write("mayores de 10: "+"<br/>");
+    document.write (filtrados+"<br/>");
+    var sumados = filtrados.reduce((subtotal, plus) => subtotal + plus);
+    document.write("y sumados son: "+"<br/>");
+    document.write(sumados+"<br/>");
+    document.write("________-FIN DEL EJEMPLO-_____________"+"<br/>")
+
+    //Encadenamiento de tareas
+    document.write("Y todo junto : "+"<br/>")
+    var numericos2 = [4,8,1,6,3]
+        .map(num => num*2)
+        .filter(num => num >10)
+        .reduce ((acum, num) => acum + num);
+    document.write(numericos2 +"<br/>");
+    </script>
+   
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+
+            // Callback
+            // Función que se demora su ejecución y normalmente se envía como parámetro de otra función
+            cuando = 2000;
+        
+            setTimeout(()=>{
+                    console.log("Ejecutando Callback");
+            },cuando);
+
+            //Promesas
+            //var url ="https://pokeapi.co/api/v2/pokemon/ditto";
+            //var promesa = fetch(url);
+            //promesa.then(respuesta => respuesta.json());
+            //    .then(resultado => console.log(resultado));
+            //rpromesa.catch(error => console.log(error));
+
+            //Async y await
+            //fetch("https://pokeapi.co/api/v2/pokemon/bulbasaur")
+            //.then(async(response)=>{
+              //  var data =await response.json();
+               /* console.log(data);
+                console.log(data.abilities);
+
+            })
+            .catch(error => console.log(error));*/
+
+            // Mostrar los chistes de chuck norris
+            var chuck = "https://api.chucknorris.io/jokes/random";
+            setTimeOut(()=>
+                {
+                    fetch(chuck)
+                        .then(
+                            async(response) =>
+                                {
+                                    var data = await response.json();
+                                    console.log(data);
+                                }
+                            );
+                },2000);
+
+
+
+
+            </script>
+    </body>
+    </html>

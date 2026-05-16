@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrays</title>
+</head>
+<body>
+           <script>
+            // formas de crear un array
+            var numeros = [2,9,5,1,7,3];
+            var numeros2 = new Array(2,9,5,1,7,3);
+            var numeros3 = new Array(6); //6 elementos;
+            // Asignar valores a la Array
+            numeros3[0] = 2;
+            numeros3[1] = 9;
+            numeros3[2] = 5;
+            numeros3[3] = 1;
+            numeros3[4] = 7;
+            numeros3[5] = 3;
+
+            // Recorre el array con el bucle for m tradicional
+            document.write("For tradicional:" +"<br/>")
+            for (let i =0; i<numeros3.length; i++) {
+                document.write (numeros3[i]+"<br/>");
+            }
+            document.write("Bucle for in:"+"<br/>")
+            // Recorrer el array  con el bucle for in
+            for (let i in numeros3){
+                document.write (numeros3[i]+"<br/>");
+            }
+
+            document.write("Bucle for of:")
+            // Recorrer el array  con el bucle for of
+            for (let num of numeros3){
+                document.write (num+"<br/>");
+            }
+
+
+            // Array Invertido
+            document.write("Array Invertido:"+"<br/>");
+            document.write(numeros3.reverse()+"<br/>");
+            //Array ordenado
+            document.write("Array ordenado:"+"<br/>");
+            document.write(numeros3.sort()+"<br/>");
+             //Array descendente
+             document.write("Array ordenado:"+"<br/>");
+             document.write(numeros3.sort().reverse()+"<br/>");
+
+              //Array unidos por |
+            document.write("Array Unidos por |:"+"<br/>");
+            document.write(numeros3.join("|")+"<br/>");
+
+             //elementos 3,5
+             document.write("Extraer elementos:"+"<br/>");
+             document.write(numeros3.slice(3,5)+"<br/>");
+
+             //Array de letras;
+             document.write ("Array de letras: "+"<br/>")
+             var letras = ['a','e','i','o','u'];
+
+             // Concatenación de letras y numeros
+             document.write ("Concatenación de dos arrays: "+"<br/>");
+             document.write(letras.concat(numeros3)+"<br/>");
+             document.write ("Concatenación a la inverss: "+"<br/>");
+             document.write(numeros3.concat(letras));
+             document.write((numeros3.reverse()).concat(letras.reverse())+"<br/>");
+
+
+
+
+
+
+
+           </script>                                                                      
+</body>
+</html>

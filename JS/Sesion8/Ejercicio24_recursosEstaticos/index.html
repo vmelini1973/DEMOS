@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src ="/Sesion8/Ejercicio24_recursosEstaticos/js/empleado.js"></script>
+    </head>
+    <body>
+        <script>
+            //crear 2 empleados
+            var empleado1 = new Empleado("Federico", 38000);
+            document.write("Contador: " + Empleado.getContador() + "<br/>");
+            var empleado2 = new Empleado("Marta", 41000);
+            document.write("Contador: " + Empleado.getContador() + "<br/>");
+
+            //Mostrar Ambos empleados
+            document.write(empleado1 + "<br/>");
+            document.write(empleado2 + "<br/>");
+
+            var empleado3 = new Empleado("Marta", 41000);
+            var empleado4 = new Empleado("Marta", 41000);
+            document.write(empleado3.equals(empleado4) + "<br/>");
+            
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //crear el mapa
+            var frutas = new Map();
+
+            //Agregar elementos al mapa
+            frutas.set("Manzanas", 1.85);
+            frutas.set("Peras", 1.60);
+            frutas.set("Limon", 2.1);
+            frutas.set("Fresas", 7.99);
+            frutas.set("Plátanos", 2.60);
+            frutas.set("Kiwis", 4.80);
+
+          for (item of frutas){
+document.write(item +"<br/>")
+
+          }
+          document.write("______________________" + "<br/>");
+
+            //Eliminar un elemento
+            frutas.delete("Kiwis");
+
+            //Los mapas no permiten claves duplicadas
+            //Nod a error, pero se sobreescribe el valor
+            frutas.set("Fresas", 5.99);
+
+            for (item of frutas){
+                document.write(item +"<br/>")
+
+        
+                
+                          }
+
+            // Precio de los limones
+            document.write("Limones: " +frutas.get("Limon") + " €/Kg <br/>");
+
+
+            //Cuantos elementos tengo en el mapa
+            document.write("Número de productos: " + frutas.size + "<br/>");
+
+            //Mostrar los nombres de las frutas, es mostrar las claves
+            document.write("______________________" + "<br/>");
+            for (var fruta of frutas.keys()){
+                document.write (fruta) + "<br/>";
+            }
+            document.write("______________________" + "<br/>");
+            // Mostrar precios
+
+            document.write("______________________" + "<br/>");
+            for (var precio of frutas.values()){
+                document.write (precio) + "<br/>";
+            }
+            document.write("______________________" + "<br/>");
+
+            //Mostrar elementos como clave-valor
+
+            document.write("______________________" + "<br/>");
+            
+            for (var [clave,valor] of frutas){
+                document.write (clave +": " + valor + " €/kg <br/>");
+            }
+            document.write("______________________" + "<br/>");
+
+            //Recorre el mapa con forecha
+            frutas.forEach(item => {
+                document.write(item + "<br/>");
+            
+
+
+            });
+                
+
+
+
+
+        </script>
+    </body>
+</html>

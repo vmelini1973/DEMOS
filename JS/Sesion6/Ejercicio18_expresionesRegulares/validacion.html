@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var Lista = [
+            "+56-2-24215300",
+            "+56 2 24215300",
+            "+56-2 24215300",
+            "+56 2-24215300",
+            "+56-2-2421530",
+            "+56-2-242153000",
+            "+34-2-24215300",
+            "+56-2-24215A00"];
+        var exp = /^\+56(\-2\-| 2 )\d{8}$/;
+        for (m of Lista) {
+            if (exp.test(m)) {
+            document.write(m + " es correcto");
+            } else { 
+                document.write(m + " es incorrecto, ");}
+           
+        }
+
+    </script>
+</body>
+</html>

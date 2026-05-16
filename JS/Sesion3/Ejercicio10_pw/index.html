@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+       
+        var acertado = false;
+        var intentos = 3;
+        var R = "";
+
+       do {
+
+            R = window.prompt("Indique su contraseña");
+            intentos--;    
+            if (R == "feo") {
+                    alert("Bienvenido a Matrix");
+                    acertado=true;
+                    break;     
+            };  
+
+        } while (intentos > 0)
+        if (acertado == false) {alert("Tómese una pastillita");};
+    </script>
+</body>
+</html>

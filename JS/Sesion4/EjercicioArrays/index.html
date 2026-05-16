@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios</title>
+</head>
+<body>
+    <script>
+        document.write("Ejercicio 1: mostrar meses" + "<br/>");     
+        meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dec'];
+        for (let m of meses) {
+            document.write(m + "<br/>");
+        }
+    document.write("______________________________"+ "<br/>");
+    document.write("Ejercicio 2: Numeros pares"+ "<br/>");
+        numeros = [2,7,6,8,3,4,1,9];
+        document.write(numeros.filter(elemento => Math.round(elemento/2) == elemento/2));
+    document.write("<br/>" + "______________________________"+ "<br/>");
+    document.write("Ejercicio 3: Mostrar los que estén en índice par"+ "<br/>");
+    numeros3 = [2,7,6,8,3,4,1,9];
+        for (i =0 ; i < 8 ; i=i+2){
+            document.write(numeros3[i]);
+        }
+        document.write("<br/>" + "______________________________"+ "<br/>");
+        document.write("Ejercicio 4: Invertir un array"+ "<br/>");
+        for (let primerOrden of meses){
+            document.write(primerOrden + " ");
+        }
+        document.write("<br/>" + "Al reves:"+ "<br/>")
+        meses = meses.reverse();
+        for (let segundoOrden of meses){
+            document.write(segundoOrden +" ");
+        }
+
+        document.write("<br/>"+ "______________________________"+ "<br/>");
+        document.write("Ejercicio 5: Suma Pares e impares"+ "<br/>");
+        sumapar=0;
+        sumaimpar=0;
+        for (parimp = 0;parimp < numeros.length;parimp++){
+            if (numeros[parimp] % 2 == 0 )
+                {
+                sumapar = sumapar + numeros[parimp];
+                document.write(numeros[parimp] + " es par, y los pares suman: " + sumapar + "<br/>");
+                } else {
+                    sumaimpar = sumaimpar + numeros[parimp]
+                    document.write(numeros[parimp] +" es impar, y los impares suman: " + sumaimpar + "<br/>");
+                };
+        }
+        document.write("<br/>"+ "______________________________"+ "<br/>");
+        document.write("Ejercicio 6: Examen final"+ "<br/>");
+        document.write("Parte 1: "+ "<br/>");
+        var valores = ["un", true,5,false,"una","y",2];
+        ganador = "a";
+        for (let palabra of valores){
+            document.write("longitud de " + palabra + ": " + palabra.length + "<br/>")
+            if (palabra.length > ganador.length) {
+                ganador = palabra;
+            }
+        } 
+        document.write("palabra más larga: " + ganador);
+        document.write( "<br/>" + "______________________________"+ "<br/>");
+        document.write("Parte 2: "+ "<br/>");
+        booleanos = new Array(2);
+        i=0;
+        for (comp of valores)
+        {
+            if (typeof(comp) == 'boolean')
+                {
+                 booleanos[i] =comp;
+                 i++; 
+                }
+        };
+        document.write(booleanos[0] + " igual a " + booleanos[1] + " = " + (booleanos[0] == booleanos[1])+ "<br/>");
+        document.write(booleanos[0] + " distinto de " + booleanos[1] + " = " + (booleanos[0] != booleanos[1])+ "<br/>");
+
+        document.write("_______________________________"+ "<br/>");
+        document.write("Parte 3: "+ "<br/>");
+        document.write ("Operaciones aritmética con los valores numéricos de la matriz"+ "<br/>")
+   
+        enteros = new Array(2);
+        i=0;
+        for (cont of valores)
+        {
+            if (typeof(cont) == 'number')
+                {
+                 enteros[i] =cont;
+                 i++; 
+                }
+        };
+        document.write(enteros[0] + " + " + enteros[1] + " = " + (enteros[0] + enteros[1])+ "<br/>");
+        document.write(enteros[0] + " - " + enteros[1] + " = " + (enteros[0] - enteros[1])+ "<br/>");
+        document.write(enteros[0] + " * " + enteros[1] + " = " + (enteros[0] * enteros[1])+ "<br/>");
+        document.write(enteros[0] + " / " + enteros[1] + " = " + (enteros[0] / enteros[1])+ "<br/>");
+        document.write(enteros[0] + " resto " + enteros[1] + " = " + (enteros[0] % enteros[1])+ "<br/>");
+
+        
+    </script>
+</body>
+</html>

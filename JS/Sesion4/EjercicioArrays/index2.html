@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Gestor de matrices</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+</head>
+
+<body>
+<script>
+	matriz1 = [1,"perro",true,4,false,"gato",7, 5,true];
+	respuesta = window.prompt("Indique numero, booleano,palabra");
+	i = -1;
+
+
+	switch (respuesta) {
+		case "numero":
+		for (m of matriz1) {
+			if (typeof(m) == "number") {
+				i++
+				matrizResultado[i] = m;
+				}
+		}
+		Respuesta();
+		break;
+		 
+		 case "booleano":
+		 for (m of matriz1) {
+			if (typeof(m) == "boolean") {
+				i++
+				matrizResultado[i] = m;
+				}
+		}
+		Respuesta();
+		 break;
+		 
+		 case "palabra":
+		 for (m of matriz1) {
+			if (typeof(m) == "string") {
+				i++
+				matrizResultado[i] = m;
+				}
+		}
+		Respuesta();
+		 break;
+		 
+		 default:
+		 alert("No ha elegido la palabra Correcta");
+		 break;
+	}
+	function  Respuesta() {
+	alert("Ha seleccionado " +(i+1) + " valores." );
+	document.write(matrizResultado);
+	};
+</script>
+</body>
+</html>

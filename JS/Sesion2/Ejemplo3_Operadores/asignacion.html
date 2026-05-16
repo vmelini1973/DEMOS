@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asginación de Variables</title>
+</head>
+<body>
+    <script>
+        // Asignacion simple
+        var numero = 7;
+    
+        // Asignacion compuesta
+        numero += 2; //numero = numero + 2;
+        numero -= 2; //numero = numero - 2;
+        numero *= 2; //numero = numero * 2;
+        numero /= 2; //numero = numero / 2;
+        numero %= 2; //numero = numero % 2;
+
+        // Operadores bit a bit
+        numero ^= 5; //numero = numero ^ 5;  111 ^101 ->  010  (2 en decimal)
+
+        // Incrementos
+        numero ++;  // numero +=1 ; numero = numero +1
+         
+        i = 6;
+        var j = i++;  // post incremento   1 º 2º incrementa j = 6 i =7
+        console.log(j +  "-" + i);
+        i = 6;
+        var j = ++i; // pre incremento   1º increment 2º asigna j = 7 i = 7
+        console.log(j + "-" + i);
+
+        // Decrementos
+        numero --;
+        k = 3;
+        var z = k--; //post decremento 1º asigna 2º decrementa z=3 k=2
+        console.log(z + "-" + k)
+        k = 3;
+        var z = --k; //pre incremento 1º decrementa 2º asigna z=2 k=2
+        console.log(z + "-" + k)
+    </script>
+</body>
+</html>

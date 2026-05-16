@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Mostrar los números primos del 1 al 100
+        bucle_numeros:
+        for (let numero = 1; numero <= 100; numero++) {
+            let esPrimo = true;
+            console.log("Probando Numero" + numero + "________");
+            
+            for(let divisor = 2; divisor < numero; divisor++) {
+                console.log("____Probando divisor" + divisor)
+                if (numero % divisor === 0){
+                    esPrimo = false;
+                    //break; //no tiene sentido probar más.
+                    continue bucle_numeros;
+                }
+            }
+            if (esPrimo) {
+                document.write(numero + " ");
+            }
+
+        }
+    </script>
+</body>
+</html>

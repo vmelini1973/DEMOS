@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/Sesion7/Ejercicio23_Herencia/js/figura.js"></script>
+    <script src="/Sesion7/Ejercicio23_Herencia/js/circulo.js"></script>
+    <script src="/Sesion7/Ejercicio23_Herencia/js/rectangulo.js"></script>
+</head>
+<body>
+    <script>
+        var redondo = new Circulo(10,20,15);
+        var cuadrado = new Rectangulo(5,7,20,30);
+
+        document.write("Area del círculo: " + redondo.area() + "<br/>")
+        document.write("Posición del círculo: " + redondo.posicion() + "<br/>")
+        document.write("Círculo: " + redondo.mostrarDatos() + "<br/>")
+
+        document.write("Area del Cuadrado: " + cuadrado.area() + "<br/>")
+        document.write("Posición del Cuadrado: " + cuadrado.posicion() + "<br/>")
+        document.write("Cuadrado: " + cuadrado.mostrarDatos() + "<br/>")
+
+    </script>
+    
+    
+</body>
+</html>

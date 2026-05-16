@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="/Sesion8/Ejercicio24_recursosEstaticos/js/empleado.js"></script>
+    </head>
+    <body>
+        <script>
+              //set -> No admite elementos duplicados
+              
+              //crear un set
+              var coches = new Set();
+              
+              //Agregar valores al set
+              coches.add("A3");
+              coches.add("A4");
+              coches.add("A5");
+              coches.add("A6");
+              coches.add("C3")
+              coches.add("C5");
+              coches.add("C6");
+
+              for (var coche of coches) {   
+
+                document.write(coche + "<br/>");
+            
+              }
+              document.write("_____________________" + " <br/>");
+              coches.add("A6");
+              coches.forEach(coche => {
+                document.write(coche +"<br/>");
+              } );
+              document.write("_____________________" + " <br/>");
+              //Cuántos coches tengo
+              document.write("Cuantos coches tengo? "  + coches.size + "<br/>");
+              //Comprobar si tengo el A4
+              document.write("Tengo un A4? " + coches.has('A4') +"<br/>");
+              
+              document.write("_____________________" + " <br/>");
+              //borro un coche
+              coches.delete("A5");
+              document.write("_____________________" + " <br/>");
+
+              //Crear un set de Empleados
+              var empleados = new Set();
+
+              //Agregar empleados
+              empleados.add(new Empleado("Luis, 23000"));
+              empleados.add(new Empleado("Pedro, 24000"));
+              empleados.add(new Empleado("Marta, 25000"));
+              empleados.add(new Empleado("André, 26000"));
+
+              //Mostrar empleados
+              empleados.forEach( item => {
+                  document.write(item +"<br/>")
+              })
+
+        </script>
+    </body>
+</html>

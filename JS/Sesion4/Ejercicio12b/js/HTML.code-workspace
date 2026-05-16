@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../HTML"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../../Práctica Creación aplicación/RESERVAS"
+		},
+		{
+			"path": "../../../../../Python"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "JS_M_J"
+	}
+}

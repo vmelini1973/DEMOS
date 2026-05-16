@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src ="js/alumno.js"></script>
+        <script src ="js/producto.js"></script>
+    </head>
+    <body>
+        <script>
+            // Crear los objetos o instancias de Alumno
+            var alumno1 = new Alumno()
+            alumno1.nombre ="Juan";
+            alumno1.apellido ="López";
+            alumno1.nota = "6.7";
+            console.log (alumno1);
+            document.write(alumno1.mostrarInformacion() + "<br/>");
+
+            var alumno2 = new Alumno()
+            alumno2.nombre ="María";
+            alumno2.apellido ="Sánchez";
+            alumno2.nota = "8.5";
+            console.log (alumno2);
+            document.write(alumno2.mostrarInformacion() + "<br/>");
+
+            //Mostrar la nota de juan
+            document.write ("Nota de Juan: " + alumno1.nota + "<br/>");
+            document.write ("Apellido de Maria: " + alumno2.apellido + "<br/>");
+
+            var alumno3 = new Alumno("Laura", "Perez", "9.5");
+
+            var joya1 = new Producto("anillo", "oro rosa", 1500,00);
+            document.write(joya1.identificador + "<br/>" );
+            document.write(joya1.descripcion + "<br/>" );
+            document.write(joya1.precio + "<br/>");
+
+            document.write(joya1.mostrarProducto() + "<br/>");
+            joya1.precio += 500;
+            document.write("Nuevo Precio: " +joya1.precio +"<br/>");
+
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <label>Nombre del Pokemon: </label>
+        <input type="text" name="nombre" id="nombre" onblur="buscar()" />
+        <div id="resultado"></div>
+
+        <script>
+            var xhr;
+
+            function buscar(){
+                // Obtenr el objeto XMLHttpRequest del navegador
+                xhr= new XMLHttpRequest();
+
+                // Recuperar el nombre del Pokemon
+                var dato = nombre.value
+
+                //Preparamos la petición
+                xhr.open("GET","https://pokeapi.co/api/v2/pokemon/" + dato, true);
+
+                //En la cabecera indico que el formato de respuesta es JSON
+                xhr.setRequestHeader("accept", "application/json");
+
+                //Informar de la función que procesara la respuesta
+                xhr.onreadystatechange = procesar; // SIN PARENTESIS
+
+                //Enviar la petición
+                xhr.send();
+
+            }
+
+            function procesar() {
+                // solo se procesa si hemos recibido la respuesta al completo
+                if (xhr.readyState == 4) {
+                    //*console.log(xhr.responseText);
+                    var datos = JSON.parse(xhr.responseText);
+                    var habilidades = datos.abilities;
+                    //*console.log(datos);
+                    document.getElementById("resultado").innerText += "Altura: " +datos.height +"\n";
+                    document.getElementById("resultado").innerText += "Altura: " +datos.weight +"\n";
+                    document.getElementById("resultado").innerText += "Habilidades: " + "\n";
+                   
+                    for (let habilidad of habilidades){
+                    document.getElementById("resultado").innerText += "\t " +habilidad.ability.name + "\n";    
+                    }   
+
+                }
+
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .contenedor{
+                width: 300px;
+                height: 200px;
+                float: right;
+                margin: 50px;
+                background-color: blanchedalmond;
+            }
+
+            #inicio{
+                width: 200px;
+                height: 150px;
+                float: left;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="inicio">
+            <div id="madrid" draggable="true" ondragstart="start()" ondragend="end()">Madrid</div>
+            <div id="lisboa" draggable="true" ondragstart="start()" ondragend="end()">Lisboa</div>
+            <div id="paris" draggable="true" ondragstart="start()" ondragend="end()">Paris</div>
+        </div>
+        <div id="portugal" class="contenedor" ondragover="over()" ondragleave="leave()" 
+            ondrop="drop()">Portugal</div>
+        <div id="francia" class="contenedor" ondragover="over()" ondragleave="leave()"
+            ondrop="drop()">Francia</div>
+        <div id="spain" class="contenedor" ondragover="over()" ondragleave="leave()"
+            ondrop="drop()">España</div>
+
+        <script>
+            // Variable global para almacenar la capital que se esta arrastrando
+            var capital;
+
+            function start(){
+                capital = event.target.id;
+                event.target.style.opacity = "0.3";
+            }
+            function end(){
+                event.target.style.opacity = "1";
+            }
+            function over(){
+                var pais = event.target.id;
+                if ( (pais=='spain' && capital=='madrid') || 
+                     (pais=='francia' && capital=='paris') || 
+                     (pais=='portugal' && capital=='lisboa')){
+                    event.target.style.border = "thin solid green";
+                } else {
+                    event.target.style.border = "thin solid red";
+                }
+                event.preventDefault();
+            }
+            function leave(){
+                event.target.style.border = "none";
+            }
+            function drop(){
+                var pais = event.target.id;
+                if ( (pais=='spain' && capital=='madrid') || 
+                     (pais=='francia' && capital=='paris') || 
+                     (pais=='portugal' && capital=='lisboa')){
+                    event.target.appendChild(document.getElementById(capital));
+                }
+                event.target.style.border = "none";
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/Sesion8/Ejercicio_Colecciones/js/alumnos.js"></script>
+    <script src="/Sesion8/Ejercicio_Colecciones/js/profes.js"></script>
+</head>
+<body>
+    <Script>
+        var Asignaturas = new Map();
+
+        Asignaturas.set("juan","Mates");
+        Asignaturas.set("Pepe","Lengua");
+        Asignaturas.set("Manolo","JavaScript");
+
+        for (var item of Asignaturas){
+            document.write(item +"<br/>")
+        };
+        for (prof of profes) {
+            document.write(prof +"<br/>");
+        }
+    
+    </Script>
+    
+</body>
+</html>
