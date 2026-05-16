@@ -1,0 +1,43 @@
+/* 
+// Tareas para el alumno //
+*/
+
+
+div.card{
+/* 2. Dar tamaño a las tarjetas (div.card) 250px */
+width:250px;
+height:auto;
+}
+/* 3. Evitar deformaciones. object-fit - width - height */
+img {
+width:100%;
+height:auto;
+object-fit: contain;
+}
+
+/* 4. Maquetar en fila. display - gap */
+.contenedor {
+display: flex; 
+gap: 20px;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+/* 5. Centrar contenido - text-align */
+p {
+font-family: Arial;
+font-size: 25;
+text-align:center;
+}
+
+h1{
+font-size: 50;
+font-family: Cambria;
+color:blue;
+text-align: center;
+}
+
+
+
+
+
