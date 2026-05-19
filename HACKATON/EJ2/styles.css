@@ -1,0 +1,56 @@
+.titulo{
+    text-align: center;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: blanchedalmond;
+}
+
+.tarjeta{
+    margin-left: 30%;
+    margin-top: 5%;
+    width: 500px;
+    background-color: blue;
+    border-radius: 5%;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.mitad{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.foto {
+    display: flex;
+    padding: 10px;
+    height: auto;
+    width: 150px;
+    border: 5px solid black;
+}
+
+.descripcion{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.enlaces {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.enlaces a {
+    font-size: 40px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;}
