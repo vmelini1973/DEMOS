@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mPYME — Artículos</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #181c27;
+      --border: #2a2f3f;
+      --accent: #4fffb0;
+      --accent-dim: rgba(79,255,176,0.12);
+      --text: #e8eaf0;
+      --muted: #6b7280;
+      --error: #ff5f6d;
+      --warn: #ffd166;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header .logo {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    header .logo span { color: var(--muted); }
+    #statusBadge {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--surface);
+      transition: all .3s;
+    }
+    #statusBadge.ok   { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    #statusBadge.err  { border-color: var(--error);  color: var(--error); }
+
+    /* ── Layout ── */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 0;
+    }
+
+    /* ── Config panel ── */
+    aside {
+      border-right: 1px solid var(--border);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .panel-title {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 0.8rem; color: var(--muted); }
+    input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      padding: 9px 12px;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input:focus { border-color: var(--accent); }
+    input[type="password"] { letter-spacing: 0.15em; }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 11px 0;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+      letter-spacing: 0.04em;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--accent);
+      color: #0f1117;
+    }
+    .btn-primary:disabled { opacity: 0.4; cursor: default; }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    .filter-row { display: flex; gap: 8px; }
+    .filter-row input { flex: 1; }
+
+    /* ── Results panel ── */
+    section {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .results-header {
+      padding: 20px 28px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .results-header h2 {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text);
+    }
+    #countBadge {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 2px 9px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 20px;
+    }
+    .pagination {
+      margin-left: auto;
+      display: flex;
+      gap: 6px;
+    }
+    .btn-page {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-page:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .btn-page:disabled { opacity: 0.3; cursor: default; }
+
+    /* ── Table ── */
+    .table-wrap {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 0 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+    }
+    thead th {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 1;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    tbody tr:hover { background: var(--surface); }
+    tbody td {
+      padding: 11px 16px;
+      vertical-align: middle;
+    }
+    td.code {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+    }
+    td.name { font-weight: 400; }
+    td.price { font-family: var(--mono); font-size: 0.8rem; text-align: right; }
+    td.stock { text-align: center; }
+    .stock-pill {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .stock-ok  { background: rgba(79,255,176,0.12); color: var(--accent); }
+    .stock-low { background: rgba(255,209,102,0.12); color: var(--warn); }
+    .stock-out { background: rgba(255,95,109,0.12);  color: var(--error); }
+
+    /* ── States ── */
+    .state-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex: 1;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      padding: 60px 20px;
+    }
+    .state-box .icon { font-size: 2.2rem; }
+    .state-box.error .msg { color: var(--error); }
+
+    /* spinner */
+    .spinner {
+      width: 28px; height: 28px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Log ── */
+    #logBox {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      padding: 10px 24px 4px;
+      min-height: 36px;
+      border-top: 1px solid var(--border);
+    }
+    #logBox .ok  { color: var(--accent); }
+    #logBox .err { color: var(--error); }
+
+    @media (max-width: 760px) {
+      main { grid-template-columns: 1fr; }
+      aside { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">m<span>PYME</span> API</div>
+  <span style="font-size:.8rem;color:var(--muted)">/ artículos</span>
+  <div id="statusBadge">● desconectado</div>
+</header>
+
+<main>
+  <!-- ── Config ── -->
+  <aside>
+    <div>
+      <p class="panel-title">Conexión</p>
+    </div>
+
+    <div class="field">
+      <label>URL del servidor</label>
+      <input id="apiUrl" type="text" placeholder="https://servidor:8080/" value="http://localhost:8080/">
+    </div>
+    <div class="field">
+      <label>Empresa (empr)</label>
+      <input id="empr" type="text" placeholder="1" value="1">
+    </div>
+    <div class="field">
+      <label>Usuario</label>
+      <input id="user" type="text" placeholder="admin">
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input id="pass" type="password" placeholder="••••••••">
+    </div>
+
+    <button class="btn btn-primary" id="btnLogin" onclick="doLogin()">Conectar</button>
+    <button class="btn btn-secondary" id="btnLogout" onclick="doLogout()" disabled>Desconectar</button>
+
+    <hr class="divider">
+
+    <div>
+      <p class="panel-title">Filtro</p>
+    </div>
+    <div class="field">
+      <label>Buscar (código o nombre)</label>
+      <div class="filter-row">
+        <input id="filterText" type="text" placeholder="Ej: ALFOMBRILLA"
+               onkeydown="if(event.key==='Enter') doFetch('first')">
+        <button class="btn btn-secondary" style="padding:0 14px" onclick="doFetch('first')">↵</button>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div style="font-size:0.75rem; color:var(--muted); line-height:1.7">
+      <span style="color:var(--text)">Nota:</span> La contraseña se convierte
+      a SHA-1 en Base64 en el navegador antes de enviarse, tal como requiere la API.
+    </div>
+  </aside>
+
+  <!-- ── Results ── -->
+  <section>
+    <div class="results-header">
+      <h2>ARTÍCULOS</h2>
+      <span id="countBadge" style="display:none">0</span>
+      <button class="btn-page" id="btnAll" onclick="doFetchAll()" disabled
+              style="border-color:var(--accent);color:var(--accent);margin-left:8px">
+        ↓ Cargar todos
+      </button>
+      <div class="pagination">
+        <button class="btn-page" id="btnFirst" onclick="doFetch('first')"  disabled>«</button>
+        <button class="btn-page" id="btnPrior" onclick="doFetch('prior')"  disabled>‹</button>
+        <button class="btn-page" id="btnNext"  onclick="doFetch('next')"   disabled>›</button>
+        <button class="btn-page" id="btnLast"  onclick="doFetch('last')"   disabled>»</button>
+      </div>
+    </div>
+
+    <div id="tableArea" class="table-wrap">
+      <div class="state-box">
+        <div class="icon">⚙</div>
+        <span>Configura la conexión y pulsa <strong style="color:var(--text)">Conectar</strong></span>
+      </div>
+    </div>
+
+    <div id="logBox"></div>
+  </section>
+</main>
+
+<script>
+  // ── Estado de sesión ──────────────────────────────────────────────
+  let ssid1 = '', ssid2 = '', loggedIn = false;
+
+  // ── Utilidad: SHA-1 → Base64 ──────────────────────────────────────
+  async function sha1Base64(str) {
+    const buf  = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest('SHA-1', buf);
+    return btoa(String.fromCharCode(...new Uint8Array(hash)));
+  }
+
+  // ── Utilidad: petición POST urlencoded ────────────────────────────
+  async function apiPost(params) {
+    const base = document.getElementById('apiUrl').value.replace(/\/$/, '') + '/';
+    const body = Object.entries(params)
+      .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+      .join('&');
+
+    const res = await fetch(base, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body
+    });
+    return res.json();
+  }
+
+  // ── Log ───────────────────────────────────────────────────────────
+  function log(msg, type = '') {
+    const box = document.getElementById('logBox');
+    box.innerHTML = `<span class="${type}">${msg}</span>`;
+  }
+
+  // ── Badge de estado ───────────────────────────────────────────────
+  function setStatus(text, cls) {
+    const b = document.getElementById('statusBadge');
+    b.textContent = '● ' + text;
+    b.className = cls;
+  }
+
+  // ── LOGIN ─────────────────────────────────────────────────────────
+  async function doLogin() {
+    const user = document.getElementById('user').value.trim();
+    const pass = document.getElementById('pass').value;
+    const empr = document.getElementById('empr').value.trim();
+
+    if (!user || !pass) { log('Introduce usuario y contraseña.', 'err'); return; }
+
+    showLoading('Autenticando…');
+    log('Conectando con el servidor…');
+
+    try {
+      const passHash = await sha1Base64(pass);
+      const data = await apiPost({ method: 'login', empr, user, pass: passHash });
+
+      if (data.code === 0) {
+        ssid1    = data.data.ssid1;
+        ssid2    = data.data.ssid2;
+        loggedIn = true;
+        setStatus('conectado', 'ok');
+        document.getElementById('btnLogin').disabled   = true;
+        document.getElementById('btnLogout').disabled  = false;
+        document.getElementById('btnAll').disabled     = false;
+        log(`Sesión iniciada — ssid1: ${ssid1}`, 'ok');
+        doFetch('first');
+      } else {
+        showError(`Error ${data.code}: ${JSON.stringify(data.data)}`);
+        log(`Login fallido (code ${data.code})`, 'err');
+        setStatus('error de autenticación', 'err');
+      }
+    } catch (e) {
+      showError('No se pudo conectar con el servidor. Revisa la URL.');
+      log(`Error de red: ${e.message}`, 'err');
+      setStatus('sin conexión', 'err');
+    }
+  }
+
+  // ── LOGOUT ────────────────────────────────────────────────────────
+  async function doLogout() {
+    if (!loggedIn) return;
+    try { await apiPost({ method: 'logout', ssid1, ssid2 }); } catch (_) {}
+    ssid1 = ssid2 = '';
+    loggedIn = false;
+    setStatus('desconectado', '');
+    document.getElementById('btnLogin').disabled  = false;
+    document.getElementById('btnLogout').disabled = true;
+    document.getElementById('countBadge').style.display = 'none';
+    document.getElementById('btnAll').disabled = true;
+    setPagination(false, false);
+    showEmpty();
+    log('Sesión cerrada.');
+  }
+
+  // ── FETCH ALL: obtener todos los artículos paginando ─────────────
+  async function doFetchAll() {
+    if (!loggedIn) { log('Debes iniciar sesión primero.', 'err'); return; }
+
+    const btn = document.getElementById('btnAll');
+    btn.disabled = true;
+    btn.textContent = '⏳ Cargando…';
+    setPagination(false, false);
+
+    const filter = document.getElementById('filterText').value.trim();
+    let allItems = [];
+    let more = 'first';
+    let page = 0;
+
+    try {
+      while (true) {
+        page++;
+        const params = { method: 'browse', objectclass: 'articulos', more, ssid1, ssid2 };
+        if (filter) params.filter = filter;
+
+        log(`Descargando bloque ${page}… (${allItems.length} artículos acumulados)`);
+
+        const data = await apiPost(params);
+
+        if (data.code === 7) {
+          loggedIn = false;
+          setStatus('sesión expirada', 'err');
+          showError('La sesión ha expirado. Vuelve a conectarte.');
+          log('Sesión expirada (code 7)', 'err');
+          return;
+        }
+        if (data.code !== 0) {
+          showError(`Error ${data.code}: ${JSON.stringify(data.data)}`);
+          log(`Error en browse (code ${data.code})`, 'err');
+          break;
+        }
+
+        const items = data.data || [];
+        // Comprobar si hay más bloques ANTES de limpiar la propiedad
+        const lastItem = items[items.length - 1];
+        const hasMore  = lastItem && lastItem.moreItems === true;
+
+        // Limpiar moreItems para no ensuciar los datos
+        items.forEach(i => delete i.moreItems);
+        allItems = allItems.concat(items);
+
+        if (!hasMore) break; // no hay más bloques
+
+        more = 'next';
+      }
+
+      renderTable(allItems);
+      setPagination(false, false); // paginación desactivada, ya tenemos todo
+      log(`✓ ${allItems.length} artículos cargados en ${page} bloque(s).`, 'ok');
+    } catch (e) {
+      showError('Error de red al obtener artículos.');
+      log(`Error: ${e.message}`, 'err');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '↓ Cargar todos';
+    }
+  }
+
+  // ── BROWSE: obtener artículos ─────────────────────────────────────
+  async function doFetch(more = 'first') {
+    if (!loggedIn) { log('Debes iniciar sesión primero.', 'err'); return; }
+
+    showLoading('Cargando artículos…');
+    log(`browse articulos — more: ${more}`);
+
+    const params = {
+      method: 'browse',
+      objectclass: 'articulos',
+      more,
+      ssid1,
+      ssid2
+    };
+
+    const filter = document.getElementById('filterText').value.trim();
+    if (filter) params.filter = filter;
+
+    try {
+      const data = await apiPost(params);
+
+      if (data.code === 7) {
+        // Sesión expirada
+        loggedIn = false;
+        setStatus('sesión expirada', 'err');
+        showError('La sesión ha expirado. Vuelve a conectarte.');
+        log('Sesión expirada (code 7)', 'err');
+        return;
+      }
+
+      if (data.code !== 0) {
+        showError(`Error ${data.code}: ${JSON.stringify(data.data)}`);
+        log(`Error en browse (code ${data.code})`, 'err');
+        return;
+      }
+
+      const items = data.data || [];
+      renderTable(items);
+
+      // Paginación: el API indica si hay más con "moreItems" en el primer/último elemento
+      const hasNext  = items.length > 0 && items[items.length - 1].moreItems === true;
+      const hasPrior = items.length > 0 && items[0].moreItems === true && more !== 'first';
+      // Heurística conservadora: activamos anterior si no estamos en el primer bloque
+      setPagination(more !== 'first', hasNext);
+
+      log(`${items.length} artículo(s) recibidos.`, 'ok');
+    } catch (e) {
+      showError('Error de red al obtener artículos.');
+      log(`Error: ${e.message}`, 'err');
+    }
+  }
+
+  // ── Render tabla ──────────────────────────────────────────────────
+  function renderTable(items) {
+    const area = document.getElementById('tableArea');
+    const badge = document.getElementById('countBadge');
+
+    if (!items.length) {
+      area.innerHTML = `
+        <div class="state-box">
+          <div class="icon">◻</div>
+          <span>No se encontraron artículos</span>
+        </div>`;
+      badge.style.display = 'none';
+      return;
+    }
+
+    badge.textContent  = items.length + ' resultado' + (items.length > 1 ? 's' : '');
+    badge.style.display = 'inline-block';
+
+    const rows = items.map(a => {
+      const stockVal  = a.stock ?? 0;
+      const stockCls  = stockVal > 5 ? 'stock-ok' : stockVal > 0 ? 'stock-low' : 'stock-out';
+      const stockTxt  = stockVal > 5 ? stockVal : stockVal > 0 ? `${stockVal} ⚠` : 'Sin stock';
+      const precio    = a.precioventa != null
+        ? parseFloat(a.precioventa).toFixed(2) + ' €'
+        : '—';
+      const coste     = a.preciocoste != null
+        ? parseFloat(a.preciocoste).toFixed(2) + ' €'
+        : '—';
+
+      return `
+        <tr>
+          <td class="code">${esc(a.codigo ?? '')}</td>
+          <td class="name">${esc(a.nombre ?? '')}</td>
+          <td class="price">${precio}</td>
+          <td class="price" style="color:var(--muted)">${coste}</td>
+          <td class="stock">
+            <span class="stock-pill ${stockCls}">${stockTxt}</span>
+          </td>
+          <td style="font-family:var(--mono);font-size:.72rem;color:var(--muted)">${esc(a.barcode ?? '')}</td>
+        </tr>`;
+    }).join('');
+
+    area.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th style="text-align:right">P. Venta</th>
+            <th style="text-align:right">P. Coste</th>
+            <th style="text-align:center">Stock</th>
+            <th>Código de barras</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────
+  function esc(str) {
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function showLoading(msg = 'Cargando…') {
+    document.getElementById('tableArea').innerHTML = `
+      <div class="state-box">
+        <div class="spinner"></div>
+        <span>${msg}</span>
+      </div>`;
+  }
+
+  function showEmpty() {
+    document.getElementById('tableArea').innerHTML = `
+      <div class="state-box">
+        <div class="icon">⚙</div>
+        <span>Configura la conexión y pulsa <strong style="color:var(--text)">Conectar</strong></span>
+      </div>`;
+  }
+
+  function showError(msg) {
+    document.getElementById('tableArea').innerHTML = `
+      <div class="state-box error">
+        <div class="icon">✕</div>
+        <span class="msg">${esc(msg)}</span>
+      </div>`;
+  }
+
+  function setPagination(prior, next) {
+    document.getElementById('btnFirst').disabled = !prior;
+    document.getElementById('btnPrior').disabled = !prior;
+    document.getElementById('btnNext').disabled  = !next;
+    document.getElementById('btnLast').disabled  = !next;
+  }
+</script>
+</body>
+</html>

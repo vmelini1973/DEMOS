@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>mPYME API Test</title>
+  <style>
+    body { font: 14px Arial; margin: 0; }
+    table { width: 100%; table-layout: fixed }
+    div.group { overflow: hidden; box-sizing: border-box; margin: 1em; padding: 0.25em; background: #E0E0E0; border: 1px solid #D0D0D0; } 
+    div.field { float: left; box-sizing: border-box; padding: 0.5em; }
+    label { display: block; font-size: 75%; white-space: nowrap; color: #888; }
+    input, select, textarea { margin: 0; padding: 0.25em; box-sizing: border-box; width: 100%; }
+    textarea { max-width: 100%; min-width: 100%; min-height: 6em; max-height: 90vh; }
+    .flatbtn { border:none; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="group">
+    <div class="field" style="width:70%">
+      <label>API Url:</label>
+      <input id="fieldApiUrl" value="http://localhost/">
+    </div>
+    <div class="field" style="width:30%">
+      <label>Status:</label>
+      <input id="fieldStatus" value="" disabled>
+    </div>
+  </div>
+  <div class="group">
+    <table><tr>
+      <td><input type="button" class="flatbtn" id="btnLogin"  value="login"  onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnLogout" value="logout" onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnBrowse" value="browse" onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnNew"    value="new"    onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnRead"   value="read"   onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnEdit"   value="edit"   onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnWrite"  value="write"  onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnCancel" value="cancel" onclick="selectMethod(this.value)"></td>
+      <td><input type="button" class="flatbtn" id="btnDelete" value="delete" onclick="selectMethod(this.value)"></td>
+    </tr></table>                                                   
+    <div class="field" style="width:20%">
+      <label>empr:</label>
+      <input type="text" id="fieldEmpresa" value="1" onchange="buildRequest()">
+    </div>
+    <div class="field" style="width:20%">
+      <label>user:</label>
+      <input type="text" id="fieldUserName" value="" onchange="buildRequest()">
+    </div>
+    <div class="field" style="width:40%">
+      <label>pass:</label>
+      <input type="text" id="fieldUserPass" value="" onchange="buildRequest()">
+    </div>
+    <div class="field" style="width:20%">
+      <label>ssid1:</label>
+      <input type="text" id="fieldSsid1" readonly value="" onchange="buildRequest()">
+    </div>
+    <div class="field" style="width:20%">
+      <label>ssid2:</label>
+      <input type="text" id="fieldSsid2" readonly value="" onchange="buildRequest()">
+    </div>
+    <div class="field" style="width:20%">
+      <label>objectclass:</label>
+      <select id="fieldObjectClass" onchange="buildRequest()">
+        <option>clientes</option>
+        <option>proveedores</option>
+        <option>direcciones</option>
+        <option>articulos</option>
+        <option>familias</option>
+        <option>marcas</option>
+        <option>webgrupocategoria</option>
+        <option>webcategoria</option>
+        <option>webcategoriaarticulo</option>
+        <option>docpedven</option>
+        <option>docalbven</option>
+        <option>docfacven</option>
+        <option>docpedcom</option>
+        <option>docalbcom</option>
+        <option>docfaccom</option>
+        <option>config</option>
+      </select>
+    </div>
+    <div class="field" style="width:20%">
+      <label>objectid:</label>
+      <input type="text" id="fieldObjectId" value="" onchange="buildRequest()">
+    </div>
+    <div class="field" style="width:20%">
+      <label>filter:</label>
+      <input type="text" id="fieldFilter" value="" onchange="buildRequest()">
+    </div>
+    <div class="field" style="width:20%">
+      <label>more:</label>
+      <select id="fieldMore" onchange="buildRequest()">
+        <option></option>
+        <option>first</option>
+        <option>prior</option>
+        <option>next</option>
+        <option>last</option>
+      </select>
+    </div>
+    <div class="field" style="width:100%">
+      <label>data:</label>
+      <textarea id="fieldData" value="" onchange="buildRequest()"></textarea>
+    </div>
+  </div>
+  <div class="group">
+    <div class="field" style="width:100%">
+      <label>Request:</label>
+      <textarea id="fieldRequest" value=""></textarea>
+    </div>
+    <div class="field" style="width:100%">
+      <input type="button" id="btnPost" value="POST" style="width:8em" onclick="sendRequest()">
+    </div>
+  </div>
+  <div class="group">
+    <div class="field" style="width:100%">
+      <label>Response:</label>
+      <textarea id="fieldResponse" readonly value="" style="height:30vh"></textarea>
+    </div>
+  </div>
+  <script>
+    
+    var listButtons = 'btnLogin,btnLogout,btnBrowse,btnNew,btnRead,btnEdit,btnWrite,btnCancel,btnDelete,btnPost';
+    var listFields1 = 'fieldApiUrl,fieldRequest,fieldResponse'; 
+    var listFields2 = 'fieldEmpresa,fieldUserName,fieldUserPass,fieldSsid1,fieldSsid2,fieldObjectClass,fieldObjectId,fieldFilter,fieldMore,fieldData'; 
+    var method = 'login';
+    var request = '';
+    var response = '';
+    var ssid1 = '';
+    var ssid2 = '';
+    
+    selectMethod('login');
+
+    function selectMethod(newValue) {
+      method = newValue;
+      buildRequest();
+    }    
+    
+    function buildRequest() {
+      request = 'method=' + method;
+      if (method == 'login') {
+        request += '&empr=' + encodeURIComponent(document.getElementById('fieldEmpresa').value);
+        request += '&user=' + encodeURIComponent(document.getElementById('fieldUserName').value);
+        request += '&pass=' + encodeURIComponent(document.getElementById('fieldUserPass').value);
+      } else {
+        request += '&ssid1=' + encodeURIComponent(document.getElementById('fieldSsid1').value); 
+        request += '&ssid2=' + encodeURIComponent(document.getElementById('fieldSsid2').value); 
+        if (method == 'browse') {
+          var valFilter = document.getElementById('fieldFilter').value; 
+          var valMore   = document.getElementById('fieldMore'  ).value; 
+          request += '&objectclass=' + encodeURIComponent(document.getElementById('fieldObjectClass').value); 
+          if (valFilter > '') request += '&filter=' + encodeURIComponent(valFilter); 
+          if (valMore > '') request += '&more=' + encodeURIComponent(valMore); 
+        } else 
+        if (method == 'read') {
+          request += '&objectclass=' + encodeURIComponent(document.getElementById('fieldObjectClass').value); 
+          request += '&objectid=' + encodeURIComponent(document.getElementById('fieldObjectId').value); 
+        } else 
+        if (method == 'new') {
+          request += '&objectclass=' + encodeURIComponent(document.getElementById('fieldObjectClass').value); 
+        } else 
+        if (method == 'edit') {
+          request += '&objectclass=' + encodeURIComponent(document.getElementById('fieldObjectClass').value); 
+          request += '&objectid=' + encodeURIComponent(document.getElementById('fieldObjectId').value); 
+          request += '&data=' + encodeURIComponent(document.getElementById('fieldData').value); 
+        } else 
+        if (method == 'write') {
+          request += '&objectclass=' + encodeURIComponent(document.getElementById('fieldObjectClass').value); 
+          request += '&objectid=' + encodeURIComponent(document.getElementById('fieldObjectId').value); 
+          request += '&data=' + encodeURIComponent(document.getElementById('fieldData').value); 
+        } else 
+        if (method == 'cancel') {
+          request += '&objectclass=' + encodeURIComponent(document.getElementById('fieldObjectClass').value); 
+          request += '&objectid=' + encodeURIComponent(document.getElementById('fieldObjectId').value); 
+        } else 
+        if (method == 'delete') {
+          request += '&objectclass=' + encodeURIComponent(document.getElementById('fieldObjectClass').value); 
+          request += '&objectid=' + encodeURIComponent(document.getElementById('fieldObjectId').value); 
+        }
+      }  
+      updateStatus();
+    }
+    
+    function updateStatus(waiting) {
+      if (waiting) {
+        disableElements(listButtons);
+        disableElements(listFields1);
+        disableElements(listFields2);
+      } else {
+        enableElements(listButtons);
+        enableElements(listFields1);
+        enableElements(listFields2);
+        hideElements(listFields2);
+        switch (method) {
+          case 'login' : selectButton('btnLogin');  showElements('fieldEmpresa,fieldUserName,fieldUserPass'); break;
+          case 'logout': selectButton('btnLogout'); showElements('fieldSsid1,fieldSsid2'); break;
+          case 'browse': selectButton('btnBrowse'); showElements('fieldSsid1,fieldSsid2,fieldObjectClass,fieldFilter,fieldMore'); break;
+          case 'new'   : selectButton('btnNew');    showElements('fieldSsid1,fieldSsid2,fieldObjectClass'); break;
+          case 'read'  : selectButton('btnRead');   showElements('fieldSsid1,fieldSsid2,fieldObjectClass,fieldObjectId'); break;
+          case 'edit'  : selectButton('btnEdit');   showElements('fieldSsid1,fieldSsid2,fieldObjectClass,fieldObjectId,fieldData'); break;
+          case 'write' : selectButton('btnWrite');  showElements('fieldSsid1,fieldSsid2,fieldObjectClass,fieldObjectId,fieldData'); break;
+          case 'cancel': selectButton('btnCancel'); showElements('fieldSsid1,fieldSsid2,fieldObjectClass,fieldObjectId'); break;
+          case 'delete': selectButton('btnDelete'); showElements('fieldSsid1,fieldSsid2,fieldObjectClass,fieldObjectId'); break;
+        }
+        document.getElementById('fieldSsid1').value = ssid1;
+        document.getElementById('fieldSsid2').value = ssid2;
+        document.getElementById('fieldRequest').value = request;
+        document.getElementById('fieldResponse').value = response;
+        if ((ssid1 > '') && (ssid2 > '')) {
+          document.getElementById('fieldStatus').value = 'Logged in';
+        } else {
+          document.getElementById('fieldStatus').value = 'Not logged in';
+        }
+      }
+    }
+    
+    function sendRequest() {
+      updateStatus(true);
+      var url = document.getElementById('fieldApiUrl').value;
+      request = document.getElementById('fieldRequest').value;
+      showWaitingMessage();
+      ajaxPost(url, request, function (content) {
+        processResponse(content);
+        updateStatus();
+      }, function (error) {
+        response = error;
+        updateStatus();
+      });
+    }
+    
+    function processResponse(content) {
+      if (content.code == 0) {
+        if (method == 'login') {
+          ssid1 = content.data.ssid1;
+          ssid2 = content.data.ssid2;
+        }
+        if (method == 'logout') {
+          ssid1 = '';
+          ssid2 = '';
+        }
+      }
+      response = JSON.stringify(content, null, 2);
+    }
+    
+    function showWaitingMessage(recursive) {
+      if (recursive) {
+        text = document.getElementById('fieldResponse').value;
+      } else {
+        text = 'Waiting..';
+      }
+      if (text.substr(0,7) == 'Waiting') {
+        document.getElementById('fieldResponse').value = text + '.';
+        setTimeout(function () {
+          showWaitingMessage(true);
+        }, 500);
+      }
+    }
+    
+    function ajaxPost(url, request, onDone, onFail) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+      xhr.send(request);
+      xhr.onload = function () {
+        if (xhr.status == 200) {
+          try {
+            var response = JSON.parse(xhr.responseText);
+            if (onDone) onDone(response);
+          } catch (error) {
+            if (onFail) onFail('Parse error: ' + error.message);
+          }
+        } else {
+          if (onFail) onFail('Error ' + xhr.status + ': ' + xhr.statusText);
+        }
+      }
+      xhr.onerror = function (e) {
+        if (onFail) onFail('Connection error');
+      }
+    }
+  
+    function showElements(ids) {
+      ids.split(',').forEach(function (id) {
+        document.getElementById(id).parentElement.style.display = 'block';
+      });
+    }
+    
+    function hideElements(ids) {
+      ids.split(',').forEach(function (id) {
+        document.getElementById(id).parentElement.style.display = 'none';
+      });
+    }
+    
+    function enableElements(ids) {
+      ids.split(',').forEach(function (id) {
+        document.getElementById(id).disabled = false;
+      });
+    }
+    
+    function disableElements(ids) {
+      ids.split(',').forEach(function (id) {
+        document.getElementById(id).disabled = true;
+      });
+    }
+      
+    function selectButton(idButton) {
+      listButtons.split(',').forEach(function (id) {
+        document.getElementById(id).style.background = null;
+      });
+      document.getElementById(idButton).style.background = '#9BF';
+    }
+    
+  </script>
+</body>
+</html>
